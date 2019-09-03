@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Asap Condensed', sans-serif;
+}
+
+body>h1 {
+    margin: 1em 0 1em 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 4rem;
+}
+
+main {
+    display: grid;
+    justify-items: center;
+}
+
+ul {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+    text-align: center;
+}
+
+li {
+    margin: 2em 1em 2em 1em;
+    padding: 4em;
+    box-shadow: 0 1rem 2.8rem 0 rgba(0, 0, 0, .15);
+    border-radius: 1rem;
+}
+
+li>h1 {
+    font-weight: 600;
+    margin: 0 0 .2em 0;
+}
+
+li>h2 {
+    font-weight: 400;
+}
+
+.fa-user,
+.fa-home {
+    font-size: 90% !important;
+}
