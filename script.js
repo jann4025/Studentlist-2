@@ -1,19 +1,12 @@
+"use strict";
 document.addEventListener("DOMContentLoaded", start);
 
 
 function start() {
-    console.log("Start er kaldet");
+    console.log("Lets go");
 
     // Todo: Empty array for all students
     let students = [];
-
-
-
-
-    // Todo: Split student fullname - Create varibel for first name
-
-
-    // Todo: Split student fullname - Create varibel for last name
 
     // Todo: Filter varible
     let filter = "Alle";
@@ -22,16 +15,14 @@ function start() {
     let sortby;
 
     // Todo: Create addEventListener to "sort by"-dropdown - calling function to sort json file
+    document.querySelectorAll('#sort-by').forEach(option => {
+        option.addEventListener("change", sortBy);
+    });
+
 
     // Todo: Create addEventListener to "filter by"-dropdown - calling function to filter json file
     document.querySelectorAll('#filter-by').forEach(option => {
         option.addEventListener("change", filterBy);
-
-    });
-
-    document.querySelectorAll('#sort-by').forEach(option => {
-        option.addEventListener("change", sortBy);
-
     });
 
 
@@ -71,10 +62,10 @@ function start() {
             // Todo: Find first space in fullname
             const firstSpace = student.fullname.indexOf(" ");
 
-            // Todo: Find firstname in fullname
+            // Todo: Split student fullname - Create varibel for first name
             let firstname = student.fullname.substring(0, firstSpace);
 
-            // Todo: Find lastname in fullname
+            // Todo: Split student fullname - Create varibel for last name
             let lastname = student.fullname.substring(firstSpace + 1);
 
             // Todo: Add firstname as object to each student
@@ -144,6 +135,16 @@ function start() {
             students.sort(function (a, b) {
                 return a.lastname.localeCompare(b.lastname);
             });
+
+            // Todo: If house sort by house
+        } else if (sortby == "House") {
+            console.log(sortby);
+
+            // Todo: Function to sort by house
+            students.sort(function (a, b) {
+                return a.house.localeCompare(b.house);
+            });
+
             // Todo: Reset sorting
         } else if (sortby == "none") {
             // Todo: Call start function
