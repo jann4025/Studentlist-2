@@ -14,19 +14,24 @@
 
     <h1>Student list</h1>
     <main>
-        <select>
-            <option value="">Sort by</option>
-            <option value="saab">Firstname</option>
-            <option value="saab">Lastname</option>
-        </select>
+        <div class="dropdowns">
+            <label for="#sort-by">Sort by</label>
+            <select id="sort-by">
+                <option value="none">None</option>
+                <option value="Firstname">Firstname</option>
+                <option value="Lastname">Lastname</option>
+            </select>
 
-        <select>
-            <option value="">Filter by</option>
-            <option value="hufflepuff">Hufflepuff</option>
-            <option value="gryffindor">Gryffindor</option>
-            <option value="ravenclaw">Ravenclaw</option>
-            <option value="slytherin">Slytherin</option>
-        </select>
+            <label for="#filter-by">Filter by</label>
+            <select id="filter-by">
+                <option class="option" value="Alle">Show all</option>
+                <option class="option" value="Hufflepuff">Hufflepuff</option>
+                <option class="option" value="Gryffindor">Gryffindor</option>
+                <option class="option" value="Ravenclaw">Ravenclaw</option>
+                <option class="option" value="Slytherin">Slytherin</option>
+            </select>
+
+        </div>
         <ul class="student-list">
 
         </ul>
@@ -38,6 +43,7 @@
         </template>
     </main>
     <script src="script.js"></script>
+
 </body>
 
 </html>
