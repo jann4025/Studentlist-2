@@ -16,6 +16,8 @@ function start() {
     // Todo: Sort varible
     let sortby;
 
+
+
     // Todo: Create addEventListener to "sort by"-dropdown - calling function to sort json file
     document.querySelectorAll('#sort-by').forEach(option => {
         option.addEventListener("change", sortBy);
@@ -97,7 +99,7 @@ function start() {
                 klon.querySelector(".student h2").innerHTML = student.house;
 
                 // Todo: House attribute
-                klon.querySelector(".student").setAttribute("house", student.house)
+                klon.querySelector(".student").setAttribute("house", student.house.toLowerCase());
 
                 // Todo: Clone element from 
                 dest.appendChild(klon);
@@ -122,21 +124,18 @@ function start() {
         //Todo: Create varible for identifying house 
         let house = this.getAttribute("house");
 
-        //Todo: Set let: house to lowercase
-        let houseLow = house.toLowerCase();
-
         console.log(house);
 
         //Todo: Show modal and blur everything else
-        document.querySelector(`.${houseLow}`).classList = `modal ${houseLow}`;
+        document.querySelector(`.${house}`).classList = `modal ${house}`;
         document.querySelector(".overlay").classList = "overlay";
         document.querySelector(".student-list").classList = "student-list blur";
         document.querySelector("body>h1").classList = "blur";
         document.querySelector("body").classList = "back-drop-blur";
         document.querySelector(".dropdowns").classList = "dropdowns blur";
         document.querySelector(".top img").classList = "blur";
-        document.querySelector(`.${houseLow}`).addEventListener('click', function () {
-            document.querySelector(`.${houseLow}`).classList = `modal ${houseLow} hide`;
+        document.querySelector(`.${house}`).addEventListener('click', function () {
+            document.querySelector(`.${house}`).classList = `modal ${house} hide`;
             document.querySelector(".overlay").classList = "overlay hide";
             document.querySelector(".student-list").classList = "student-list";
             document.querySelector("body>h1").classList = "";
