@@ -28,13 +28,6 @@ function start() {
     });
 
 
-
-
-
-
-
-
-
     async function getJson() {
         // Todo: Fetch json data
         let jsonData = await fetch("http://petlatkea.dk/2019/students1991.json");
@@ -52,9 +45,6 @@ function start() {
 
     function showStudents() {
         console.log(students);
-
-
-
 
         // Todo: Empty .student-list
         document.querySelector(".student-list").innerHTML = "";
@@ -117,6 +107,7 @@ function start() {
 
         });
 
+        // Todo: Eventlistener for each student
         document.querySelectorAll(".student").forEach(student => {
             student.addEventListener("click", showModal);
 
@@ -124,33 +115,38 @@ function start() {
 
     }
 
+
     function showModal() {
         console.log("Show modal");
+
+        //Todo: Create varible for identifying house 
         let house = this.getAttribute("house");
+
+        //Todo: Set let: house to lowercase
         let houseLow = house.toLowerCase();
+
         console.log(house);
 
-
+        //Todo: Show modal and blur everything else
         document.querySelector(`.${houseLow}`).classList = `modal ${houseLow}`;
         document.querySelector(".overlay").classList = "overlay";
         document.querySelector(".student-list").classList = "student-list blur";
         document.querySelector("body>h1").classList = "blur";
+        document.querySelector("body").classList = "back-drop-blur";
         document.querySelector(".dropdowns").classList = "dropdowns blur";
         document.querySelector(".top img").classList = "blur";
         document.querySelector(`.${houseLow}`).addEventListener('click', function () {
             document.querySelector(`.${houseLow}`).classList = `modal ${houseLow} hide`;
             document.querySelector(".overlay").classList = "overlay hide";
             document.querySelector(".student-list").classList = "student-list";
-            document.querySelector("body>h1").classList = ""
+            document.querySelector("body>h1").classList = "";
+            document.querySelector("body").classList = "";
             document.querySelector(".dropdowns").classList = "dropdowns"
             document.querySelector(".top img").classList = "";
         });
 
 
     }
-
-
-
 
 
     function filterBy() {
