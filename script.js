@@ -97,9 +97,12 @@ function start() {
                 // Todo: Create clone varibale
                 let klon = temp.cloneNode(!0).content;
 
-                // Todo: Fill .student h1 with student fullname
-                klon.querySelector(".student h1").innerHTML = student.fullname;
-
+                if (sortby == "Lastname") {
+                    klon.querySelector(".student h1").innerHTML = student.lastname + ", " + student.firstname;
+                } else {
+                    // Todo: Fill .student h1 with student fullname
+                    klon.querySelector(".student h1").innerHTML = student.firstname + " " + student.lastname;
+                }
                 // Todo: Fill .student h2 with student house
                 klon.querySelector(".student h2").innerHTML = student.house;
 
@@ -113,6 +116,7 @@ function start() {
             }
 
         });
+
         document.querySelectorAll(".student").forEach(student => {
             student.addEventListener("click", showModal);
 
@@ -123,43 +127,27 @@ function start() {
     function showModal() {
         console.log("Show modal");
         let house = this.getAttribute("house");
+        let houseLow = house.toLowerCase();
         console.log(house);
 
-        if (house == "Hufflepuff") {
-            document.querySelector(".hufflepuff").classList = "modal hufflepuff";
-            document.querySelector(".overlay").classList = "overlay";
-            document.querySelector(".student-list").classList = "student-list blur";
-            document.querySelector("body>h1").classList = "blur";
-            document.querySelector(".dropdowns").classList = "dropdowns blur";
-            document.querySelector('.modal').addEventListener('click', function () {
-                document.querySelector(".modal").classList = "modal hufflepuff hide";
-                document.querySelector(".overlay").classList = "overlay hide";
-                document.querySelector(".student-list").classList = "student-list";
-                document.querySelector("body>h1").classList = ""
-                document.querySelector(".dropdowns").classList = "dropdowns"
 
-            });
-
-        } else if (house == "Gryffindor") {
-            document.querySelector(".gryffindor").classList = "modal gryffindor";
-            document.querySelector(".overlay").classList = "overlay";
-            document.querySelector(".student-list").classList = "student-list blur";
-            document.querySelector("body>h1").classList = "blur";
-            document.querySelector(".dropdowns").classList = "dropdowns blur";
-            document.querySelector('.gryffindor').addEventListener('click', function () {
-                document.querySelector(".gryffindor").classList = "modal gryffindor hide";
-                document.querySelector(".overlay").classList = "overlay hide";
-                document.querySelector(".student-list").classList = "student-list";
-                document.querySelector("body>h1").classList = ""
-                document.querySelector(".dropdowns").classList = "dropdowns"
-
-            });
-
-        }
+        document.querySelector(`.${houseLow}`).classList = `modal ${houseLow}`;
+        document.querySelector(".overlay").classList = "overlay";
+        document.querySelector(".student-list").classList = "student-list blur";
+        document.querySelector("body>h1").classList = "blur";
+        document.querySelector(".dropdowns").classList = "dropdowns blur";
+        document.querySelector(".top img").classList = "blur";
+        document.querySelector(`.${houseLow}`).addEventListener('click', function () {
+            document.querySelector(`.${houseLow}`).classList = `modal ${houseLow} hide`;
+            document.querySelector(".overlay").classList = "overlay hide";
+            document.querySelector(".student-list").classList = "student-list";
+            document.querySelector("body>h1").classList = ""
+            document.querySelector(".dropdowns").classList = "dropdowns"
+            document.querySelector(".top img").classList = "";
+        });
 
 
     }
-
 
 
 
@@ -202,6 +190,8 @@ function start() {
             students.sort(function (a, b) {
                 return a.lastname.localeCompare(b.lastname);
             });
+
+
 
             // Todo: If house sort by house
         } else if (sortby == "House") {
