@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Asap Condensed', sans-serif;
+    box-sizing: border-box;
 }
 
 body>h1 {
@@ -22,6 +23,7 @@ ul {
     grid-template-columns: repeat(3, 1fr);
     list-style: none;
     text-align: center;
+
 }
 
 li {
@@ -29,6 +31,7 @@ li {
     padding: 4em;
     box-shadow: 0 1rem 2.8rem 0 rgba(0, 0, 0, .15);
     border-radius: 1rem;
+    cursor: pointer;
 }
 
 li>h1 {
@@ -46,6 +49,101 @@ li>h2 {
 }
 
 select {
+    position: relative;
     display: inline;
     margin-right: 2vw;
+    z-index: -100;
+}
+
+
+
+.sorting {
+    cursor: pointer;
+}
+
+
+.overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -10;
+
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 70vh;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hufflepuff {
+    background: url(img/PM_House_Pages_400_x_400_px_FINAL_CREST3.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.hufflepuff h1,
+.hufflepuff h2 {
+    color: #372e29;
+}
+
+.hufflepuff .image {
+    position: absolute;
+
+    top: 2vw;
+    width: 70%;
+    height: 65%;
+    background: url("img/Hannah_Abbott.png");
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 1vw;
+    background-repeat: no-repeat;
+}
+
+.top {
+    width: 90%;
+    display: grid;
+    justify-items: left;
+    font-size: 1.5em;
+}
+
+.hufflepuff .bottom {
+    position: relative;
+    bottom: -15vw;
+    left: 0;
+    background: linear-gradient(65deg, #ecb939, #f0c75e);
+    width: 100%;
+    height: 25%;
+    padding: 2vw 0 2vw 2vw;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.hufflepuff .bottom img {
+    position: relative;
+    bottom: 7vw;
+    left: 0;
+    width: 100%;
+    max-width: 180px;
+}
+
+
+.blur {
+    filter: blur(10px);
+    z-index: -4;
+}
+
+.hide {
+    display: none;
 }

@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", start);
 
 
 function start() {
+
+
     console.log("Lets go");
 
     // Todo: Empty array for all students
@@ -27,7 +29,10 @@ function start() {
 
 
 
-    // Todo: Create addEventListener for.Each student - calling function to show pop with clicked student
+
+
+
+
 
 
     async function getJson() {
@@ -47,6 +52,10 @@ function start() {
 
     function showStudents() {
         console.log(students);
+
+
+
+
         // Todo: Empty .student-list
         document.querySelector(".student-list").innerHTML = "";
 
@@ -58,6 +67,7 @@ function start() {
 
         // Todo: Create forEach function for each student
         students.forEach(student => {
+
 
             // Todo: Find first space in fullname
             const firstSpace = student.fullname.indexOf(" ");
@@ -73,6 +83,9 @@ function start() {
 
             // Todo: Add lastname as object to each student
             student.lastname = lastname;
+
+            // Todo: Add image as object to each student
+            student.imagelink = firstname + ".jpg";
 
 
             console.log(firstname + " " + lastname);
@@ -90,12 +103,41 @@ function start() {
                 // Todo: Fill .student h2 with student house
                 klon.querySelector(".student h2").innerHTML = student.house;
 
+
+
                 // Todo: Clone element from 
                 dest.appendChild(klon);
+
+
             }
+
+        });
+        document.querySelectorAll(".student").forEach(student => {
+            student.addEventListener("click", showModal);
+
         });
 
     }
+
+    function showModal() {
+        console.log("Show modal");
+        document.querySelector(".modal").classList = "modal hufflepuff";
+        document.querySelector(".overlay").classList = "overlay";
+        document.querySelector(".student-list").classList = "student-list blur";
+        document.querySelector("body>h1").classList = "blur"
+        document.querySelector(".dropdowns").classList = "dropdowns blur"
+
+        document.querySelector('.modal').addEventListener('click', function () {
+            document.querySelector(".modal").classList = "modal hufflepuff hide";
+            document.querySelector(".overlay").classList = "overlay hide";
+            document.querySelector(".student-list").classList = "student-list";
+            document.querySelector("body>h1").classList = ""
+            document.querySelector(".dropdowns").classList = ".dropdowns"
+        });
+    }
+
+
+
 
 
 
@@ -111,6 +153,7 @@ function start() {
 
     function sortBy() {
         console.log('Sort json');
+
 
         // Todo: Change filter by-varible
         sortby = this.value;
@@ -148,19 +191,16 @@ function start() {
             // Todo: Reset sorting
         } else if (sortby == "none") {
             // Todo: Call start function
+
             start();
         }
-
-
-
-
-
-
-
         // Todo: Call function to show studentlist again
         showStudents();
 
     }
+
+
+
 
 
 }
