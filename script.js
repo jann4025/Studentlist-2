@@ -103,7 +103,8 @@ function start() {
                 // Todo: Fill .student h2 with student house
                 klon.querySelector(".student h2").innerHTML = student.house;
 
-
+                // Todo: House attribute
+                klon.querySelector(".student").setAttribute("house", student.house)
 
                 // Todo: Clone element from 
                 dest.appendChild(klon);
@@ -121,19 +122,42 @@ function start() {
 
     function showModal() {
         console.log("Show modal");
-        document.querySelector(".modal").classList = "modal hufflepuff";
-        document.querySelector(".overlay").classList = "overlay";
-        document.querySelector(".student-list").classList = "student-list blur";
-        document.querySelector("body>h1").classList = "blur"
-        document.querySelector(".dropdowns").classList = "dropdowns blur"
+        let house = this.getAttribute("house");
+        console.log(house);
 
-        document.querySelector('.modal').addEventListener('click', function () {
-            document.querySelector(".modal").classList = "modal hufflepuff hide";
-            document.querySelector(".overlay").classList = "overlay hide";
-            document.querySelector(".student-list").classList = "student-list";
-            document.querySelector("body>h1").classList = ""
-            document.querySelector(".dropdowns").classList = ".dropdowns"
-        });
+        if (house == "Hufflepuff") {
+            document.querySelector(".hufflepuff").classList = "modal hufflepuff";
+            document.querySelector(".overlay").classList = "overlay";
+            document.querySelector(".student-list").classList = "student-list blur";
+            document.querySelector("body>h1").classList = "blur";
+            document.querySelector(".dropdowns").classList = "dropdowns blur";
+            document.querySelector('.modal').addEventListener('click', function () {
+                document.querySelector(".modal").classList = "modal hufflepuff hide";
+                document.querySelector(".overlay").classList = "overlay hide";
+                document.querySelector(".student-list").classList = "student-list";
+                document.querySelector("body>h1").classList = ""
+                document.querySelector(".dropdowns").classList = "dropdowns"
+
+            });
+
+        } else if (house == "Gryffindor") {
+            document.querySelector(".gryffindor").classList = "modal gryffindor";
+            document.querySelector(".overlay").classList = "overlay";
+            document.querySelector(".student-list").classList = "student-list blur";
+            document.querySelector("body>h1").classList = "blur";
+            document.querySelector(".dropdowns").classList = "dropdowns blur";
+            document.querySelector('.gryffindor').addEventListener('click', function () {
+                document.querySelector(".gryffindor").classList = "modal gryffindor hide";
+                document.querySelector(".overlay").classList = "overlay hide";
+                document.querySelector(".student-list").classList = "student-list";
+                document.querySelector("body>h1").classList = ""
+                document.querySelector(".dropdowns").classList = "dropdowns"
+
+            });
+
+        }
+
+
     }
 
 
