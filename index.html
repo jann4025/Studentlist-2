@@ -18,7 +18,13 @@
         <img src="https://vignette.wikia.nocookie.net/harrypotter/images/a/ae/Hogwartscrest.png/revision/latest?cb=20110806202805"
             alt="">
     </div>
-    <h1 class="">Student list 1991</h1>
+    <div class="top">
+        <h1 class="">Student list 1991</h1>
+        <div class="count">
+            <p class="students-count"> </p>
+            <p class="expell-count"> </p>
+        </div>
+    </div>
     <main>
         <div class="dropdowns">
             <label for="#sort-by">Sort by </label>
@@ -61,11 +67,14 @@
         </ul>
         <template>
 
-            <li class="student" house="">
-                <img src="" alt="">
-                <h1></h1>
-                <h2></h2>
-                <button>remove</button>
+            <li class="student">
+                <div class="content">
+                    <img src="" alt="">
+                    <h1></h1>
+                    <h2></h2>
+                </div>
+                <button class="btn-read-more">Read more</button>
+                <button class="btn-danger" data-action="remove">Expell</button>
             </li>
         </template>
     </main>

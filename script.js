@@ -15,6 +15,8 @@ function start() {
 
     let house;
 
+    let expell = 0;
+
     const Student = {
         firstname: "",
         middelname: "",
@@ -24,9 +26,6 @@ function start() {
         imagelink: ""
     }
 
-
-
-    // Todo: Filter varible
 
 
     // Todo: Sort varible
@@ -43,6 +42,8 @@ function start() {
         option.addEventListener("change", setFilter);
     });
 
+    document.querySelector('.student-list').addEventListener('click', expelStudent);
+    // Todo: Eventlistener for each student
 
     async function getJson() {
         // Todo: Fetch json data
@@ -94,25 +95,31 @@ function start() {
                 student.lastname = jsonObject.fullname[1];
                 student.lastname = student.lastname.charAt(0).toUpperCase() + student.lastname.slice(1).toLowerCase();
                 student.gender = jsonObject.gender.charAt(0).toUpperCase() + jsonObject.gender.slice(1).toLowerCase();
-                student.imagelink = `${student.lastname.toLowerCase()}_${student.firstname.substring(0,1).toLowerCase()}.png`;
+                if (student.lastname == "Patil") {
+                    student.imagelink = `${student.lastname.toLowerCase()}_${student.firstname.toLowerCase()}.png`;
+                } else {
+                    student.imagelink = `${student.lastname.toLowerCase()}_${student.firstname.substring(0,1).toLowerCase()}.png`;
+                }
                 student.id = create_UUID();
             } else if (jsonObject.fullname.length == 1) {
                 student.firstname = jsonObject.fullname[0];
                 student.firstname = student.firstname.charAt(0).toUpperCase() + student.firstname.slice(1).toLowerCase();
-                student.lastname = "-Unknown-";
+                student.lastname = "Unknown";
                 student.lastname = student.lastname.charAt(0).toUpperCase() + student.lastname.slice(1).toLowerCase();
                 student.gender = jsonObject.gender.charAt(0).toUpperCase() + jsonObject.gender.slice(1).toLowerCase();
                 student.imagelink = `unknown.png`;
                 student.id = create_UUID();
             }
             Allstudents.push(student);
-
         });
-
+        document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
+        document.querySelector(".expell-count").innerHTML = `Expelled students: ${expell}`;
         filteredList = filterBy("All");
         showStudents();
 
     }
+
+
 
     function setFilter() {
         house = this.value;
@@ -133,6 +140,32 @@ function start() {
         }
         console.log(Allstudents);
         return listOfStudents;
+    }
+
+    function expelStudent(evnet) {
+        const element = event.target;
+        if (element.dataset.action == "remove") {
+            console.log("Remove button click");
+            element.parentElement.remove();
+            const id = element.dataset.id;
+            const index = filteredList.findIndex(findFunction);
+            console.log(id);
+
+            function findFunction(student) {
+                if (student.id == id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            filteredList.splice(index, 1);
+            Allstudents.splice(index, 1);
+            expell++;
+            document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
+            document.querySelector(".expell-count").innerHTML = `Expelled students: ${expell}`;
+            console.table(filteredList);
+            console.table(Allstudents);
+        }
     }
 
 
@@ -172,35 +205,28 @@ function start() {
             klon.querySelector(".student img").src = `img/${student.imagelink}`;
 
             // // Todo: House attribute
-            klon.querySelector(".student").setAttribute("house", student.house.toLowerCase());
-            klon.querySelector(".student").setAttribute("id", student.id);
-            klon.querySelector("button").setAttribute("id", student.id);
+            klon.querySelector(".btn-read-more").dataset.house = student.house.toLowerCase();
+            klon.querySelector(".btn-read-more").dataset.id = student.id;
+            klon.querySelector("button").dataset.id = student.id;
 
             // // Todo: Clone element from 
             dest.appendChild(klon);
 
         });
-
-        // Todo: Eventlistener for each student
-        document.querySelectorAll(".student").forEach(student => {
-            student.addEventListener("click", showModal);
+        document.querySelectorAll(".student .btn-read-more").forEach(studentBtn => {
+            studentBtn.addEventListener("click", showModal);
 
         });
-
     }
 
 
-    function showModal() {
+    function showModal(event) {
         console.log("Show modal");
-
+        let houses = event.target.dataset.house;
+        let id = event.target.dataset.id;
+        console.log(id);
         //Todo: Create varible for identifying house 
-        let houses = this.getAttribute("house");
-        let id = this.getAttribute("id");
-
-        console.log(houses);
-
         //Todo: Show modal and blur everything else
-
         filteredList.forEach(student => {
             if (student.id == id) {
                 document.querySelector(".modal").classList.remove("hide");
@@ -208,7 +234,6 @@ function start() {
                 document.querySelector(".modal .bottom div h1").innerHTML = student.firstname + " " + student.lastname;
                 document.querySelector(".modal .bottom div h2").innerHTML = student.house;
                 document.querySelector(".modal .bottom img").src = `img/${student.imagelink}`;
-
                 if (houses == "hufflepuff") {
                     document.querySelector(".modal .image img").src = "https://vignette.wikia.nocookie.net/harrypotter/images/0/06/Hufflepuff_ClearBG.png/revision/latest?cb=20161020182518";
                 } else if (houses == "ravenclaw") {
@@ -220,7 +245,7 @@ function start() {
                 }
                 document.querySelector(".overlay").classList = "overlay";
                 document.querySelector(".student-list").classList = "student-list blur";
-                document.querySelector("body>h1").classList = "blur";
+                document.querySelector(".top h1").classList = "blur";
                 document.querySelector("body").classList = "back-drop-blur";
                 document.querySelector(".dropdowns").classList = "dropdowns blur";
                 document.querySelector(".top img").classList = "blur";
@@ -229,7 +254,7 @@ function start() {
                     document.querySelector(`.modal`).classList = `modal hide`;
                     document.querySelector(".overlay").classList = "overlay hide";
                     document.querySelector(".student-list").classList = "student-list";
-                    document.querySelector("body>h1").classList = "";
+                    document.querySelector(".top h1").classList = "";
                     document.querySelector("body").classList = "";
                     document.querySelector(".dropdowns").classList = "dropdowns"
                     document.querySelector(".top img").classList = "";

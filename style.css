@@ -14,19 +14,25 @@ body {
     backdrop-filter: blur(10px);
 }
 
-body>h1 {
+.top {
     margin: 1em 0 1em 0;
     text-align: center;
-    /* font-weight: 700; */
-    font-size: 4rem;
-    color: whitesmoke;
     text-transform: uppercase;
     font-family: 'Libre Baskerville', serif;
-
+    color: whitesmoke;
 }
 
-.student {
-    background: whitesmoke;
+.top h1 {
+    /* font-weight: 700; */
+    font-size: 4rem;
+}
+
+.top .count {
+    display: flex;
+}
+
+.top .students-count {
+    margin-right: 1em;
 }
 
 label {
@@ -59,20 +65,21 @@ ul {
 
 }
 
-li {
+.student {
     margin: 2em 1em 2em 1em;
-    padding: 4em;
+    padding: 2em 0 2em 0;
     box-shadow: 0 1rem 2.8rem 0 rgba(0, 0, 0, .15);
     border-radius: 1rem;
     cursor: pointer;
+    background: whitesmoke;
 }
 
-li>h1 {
+.content h1 {
     font-weight: 600;
     margin: 0 0 .2em 0;
 }
 
-li>h2 {
+.content h2 {
     font-weight: 400;
 }
 
@@ -115,6 +122,14 @@ select {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.content {
+    width: 100%;
+}
+
+.content h1 {
+    width: 100%;
 }
 
 .hufflepuff {
@@ -200,4 +215,55 @@ select {
 
 .hide {
     display: none;
+}
+
+
+button {
+    margin-top: 1em;
+    display: inline-block;
+    padding: .5em 2em;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.btn-danger {
+    color:
+        whitesmoke;
+    background-color:
+        #d9534f;
+    border-color:
+        #d43f3a;
+    opacity: .5;
+    transition: .3s;
+}
+
+.btn-danger:hover {
+    opacity: 1;
+    transition: .3s;
+}
+
+.btn-read-more {
+    color:
+        whitesmoke;
+    background-color:
+        #2ecc71;
+    border-color:
+        #239954;
 }
