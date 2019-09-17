@@ -110,8 +110,6 @@ select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50vw;
-    height: 70vh;
     background-color: whitesmoke;
     display: flex;
     flex-direction: column;
@@ -145,82 +143,52 @@ select {
 }
 
 .image {
-    position: absolute;
-    top: 1.2vw;
-    width: 95%;
-    height: 70%;
-    background: url(https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80);
-    background-size: cover;
-    background-position: center;
+    display: flex;
+    align-items: flex-start;
     margin-bottom: 1vw;
     background-repeat: no-repeat;
 }
 
-.top {
-    width: 90%;
-    display: grid;
-    justify-items: left;
-    font-size: 1.5em;
-}
 
 .hufflepuff .bottom {
-    position: relative;
-    bottom: -15vw;
-    left: 0;
     background: linear-gradient(65deg, #f0c75e, #ecb939);
-    width: 100%;
-    height: 25%;
-    padding: 2vw 0 2vw 2vw;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
 }
 
 
 .gryffindor .bottom {
-    position: relative;
-    bottom: -15vw;
-    left: 0;
     background: linear-gradient(65deg, #AE0001, #740001);
     color: #eeba30;
-    width: 100%;
-    height: 25%;
-    padding: 2vw 0 2vw 2vw;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
 }
 
 .ravenclaw .bottom {
-    position: relative;
-    bottom: -15vw;
-    left: 0;
     background: linear-gradient(65deg, #2b59b6, #214ba1);
     color: #ccc7d0;
-    width: 100%;
-    height: 25%;
-    padding: 2vw 0 2vw 2vw;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
 }
 
 .slytherin .bottom {
-    position: relative;
-    bottom: -15vw;
-    left: 0;
     background: linear-gradient(65deg, #2b623d, #194729);
     color: whitesmoke;
+}
+
+.bottom {
     width: 100%;
     height: 25%;
     padding: 2vw 0 2vw 2vw;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 3fr;
+    justify-items: left;
+    align-items: center;
 }
 
 .bottom img {
-    position: relative;
-    bottom: 7vw;
-    left: 0;
+    margin-right: 1em;
+}
+
+.image img {
     width: 100%;
     max-width: 180px;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 

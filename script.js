@@ -11,6 +11,8 @@ function start() {
 
     let Allstudents = [];
 
+    let filteredList;
+
     let house;
 
     const Student = {
@@ -22,7 +24,7 @@ function start() {
         imagelink: ""
     }
 
-    let Newlist;
+
 
     // Todo: Filter varible
 
@@ -60,6 +62,16 @@ function start() {
     getJson();
 
     function fixArray(students) {
+        // Source: https://www.w3resource.com/javascript-exercises/javascript-math-exercise-23.php
+        function create_UUID() {
+            var dt = new Date().getTime();
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = (dt + Math.random() * 16) % 16 | 0;
+                dt = Math.floor(dt / 16);
+                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+            return uuid;
+        }
         students.forEach(jsonObject => {
             const student = Object.create(Student);
             jsonObject.fullname = jsonObject.fullname.trim();
@@ -75,6 +87,7 @@ function start() {
                 student.lastname = student.lastname.charAt(0).toUpperCase() + student.lastname.slice(1).toLowerCase();
                 student.gender = jsonObject.gender.charAt(0).toUpperCase() + jsonObject.gender.slice(1).toLowerCase();
                 student.imagelink = `${student.lastname.toLowerCase()}_${student.firstname.substring(0,1).toLowerCase()}.png`;
+                student.id = create_UUID();
             } else if (jsonObject.fullname.length == 2) {
                 student.firstname = jsonObject.fullname[0];
                 student.firstname = student.firstname.charAt(0).toUpperCase() + student.firstname.slice(1).toLowerCase();
@@ -82,32 +95,34 @@ function start() {
                 student.lastname = student.lastname.charAt(0).toUpperCase() + student.lastname.slice(1).toLowerCase();
                 student.gender = jsonObject.gender.charAt(0).toUpperCase() + jsonObject.gender.slice(1).toLowerCase();
                 student.imagelink = `${student.lastname.toLowerCase()}_${student.firstname.substring(0,1).toLowerCase()}.png`;
+                student.id = create_UUID();
             } else if (jsonObject.fullname.length == 1) {
                 student.firstname = jsonObject.fullname[0];
                 student.firstname = student.firstname.charAt(0).toUpperCase() + student.firstname.slice(1).toLowerCase();
                 student.lastname = "-Unknown-";
                 student.lastname = student.lastname.charAt(0).toUpperCase() + student.lastname.slice(1).toLowerCase();
                 student.gender = jsonObject.gender.charAt(0).toUpperCase() + jsonObject.gender.slice(1).toLowerCase();
-                student.imagelink = `${student.lastname.toLowerCase()}_${student.firstname.substring(0,1).toLowerCase()}.png`;
+                student.imagelink = `unknown.png`;
+                student.id = create_UUID();
             }
             Allstudents.push(student);
 
         });
 
-        Newlist = filterBy("All");
+        filteredList = filterBy("All");
         showStudents();
 
     }
 
     function setFilter() {
         house = this.value;
-        Newlist = filterBy(house);
+        filteredList = filterBy(house);
         showStudents();
     }
 
     function filterBy(house) {
         console.log(house);
-        let filterlist = Allstudents.filter(filterByHouse);
+        let listOfStudents = Allstudents.filter(filterByHouse);
 
         function filterByHouse(student) {
             if (student.house == house || house == "All") {
@@ -117,7 +132,7 @@ function start() {
             }
         }
         console.log(Allstudents);
-        return filterlist;
+        return listOfStudents;
     }
 
 
@@ -131,7 +146,7 @@ function start() {
         let temp = document.querySelector("template");
 
         // Todo: Create forEach function for each student
-        Newlist.forEach(student => {
+        filteredList.forEach(student => {
             // // Todo: Create clone varibale
             let klon = temp.cloneNode(!0).content;
 
@@ -153,8 +168,13 @@ function start() {
             // // Todo: Fill .student h2 with student house
             klon.querySelector(".student h2").innerHTML = student.house;
 
+
+            klon.querySelector(".student img").src = `img/${student.imagelink}`;
+
             // // Todo: House attribute
             klon.querySelector(".student").setAttribute("house", student.house.toLowerCase());
+            klon.querySelector(".student").setAttribute("id", student.id);
+            klon.querySelector("button").setAttribute("id", student.id);
 
             // // Todo: Clone element from 
             dest.appendChild(klon);
@@ -174,29 +194,48 @@ function start() {
         console.log("Show modal");
 
         //Todo: Create varible for identifying house 
-        let house = this.getAttribute("house");
+        let houses = this.getAttribute("house");
+        let id = this.getAttribute("id");
 
-        console.log(house);
+        console.log(houses);
 
         //Todo: Show modal and blur everything else
-        document.querySelector(`.${house}`).classList = `modal ${house}`;
-        document.querySelector(".overlay").classList = "overlay";
-        document.querySelector(".student-list").classList = "student-list blur";
-        document.querySelector("body>h1").classList = "blur";
-        document.querySelector("body").classList = "back-drop-blur";
-        document.querySelector(".dropdowns").classList = "dropdowns blur";
-        document.querySelector(".top img").classList = "blur";
-        document.querySelector(`.${house}`).addEventListener('click', function () {
-            document.querySelector(`.${house}`).classList = `modal ${house} hide`;
-            document.querySelector(".overlay").classList = "overlay hide";
-            document.querySelector(".student-list").classList = "student-list";
-            document.querySelector("body>h1").classList = "";
-            document.querySelector("body").classList = "";
-            document.querySelector(".dropdowns").classList = "dropdowns"
-            document.querySelector(".top img").classList = "";
+
+        filteredList.forEach(student => {
+            if (student.id == id) {
+                document.querySelector(".modal").classList.remove("hide");
+                document.querySelector(".modal").classList.add(houses);
+                document.querySelector(".modal .bottom div h1").innerHTML = student.firstname + " " + student.lastname;
+                document.querySelector(".modal .bottom div h2").innerHTML = student.house;
+                document.querySelector(".modal .bottom img").src = `img/${student.imagelink}`;
+
+                if (houses == "hufflepuff") {
+                    document.querySelector(".modal .image img").src = "https://vignette.wikia.nocookie.net/harrypotter/images/0/06/Hufflepuff_ClearBG.png/revision/latest?cb=20161020182518";
+                } else if (houses == "ravenclaw") {
+                    document.querySelector(".modal .image img").src = "https://vignette.wikia.nocookie.net/harrypotter/images/4/4e/RavenclawCrest.png/revision/latest/scale-to-width-down/700?cb=20161020182442";
+                } else if (houses == "gryffindor") {
+                    document.querySelector(".modal .image img").src = "https://vignette.wikia.nocookie.net/harrypotter/images/b/b1/Gryffindor_ClearBG.png/revision/latest/scale-to-width-down/700?cb=20190222162949";
+                } else if (houses == "slytherin") {
+                    document.querySelector(".modal .image img").src = "https://vignette.wikia.nocookie.net/harrypotter/images/0/00/Slytherin_ClearBG.png/revision/latest/scale-to-width-down/700?cb=20161020182557";
+                }
+                document.querySelector(".overlay").classList = "overlay";
+                document.querySelector(".student-list").classList = "student-list blur";
+                document.querySelector("body>h1").classList = "blur";
+                document.querySelector("body").classList = "back-drop-blur";
+                document.querySelector(".dropdowns").classList = "dropdowns blur";
+                document.querySelector(".top img").classList = "blur";
+
+                document.querySelector(`.modal`).addEventListener('click', function () {
+                    document.querySelector(`.modal`).classList = `modal hide`;
+                    document.querySelector(".overlay").classList = "overlay hide";
+                    document.querySelector(".student-list").classList = "student-list";
+                    document.querySelector("body>h1").classList = "";
+                    document.querySelector("body").classList = "";
+                    document.querySelector(".dropdowns").classList = "dropdowns"
+                    document.querySelector(".top img").classList = "";
+                });
+            }
         });
-
-
     }
 
 
@@ -211,21 +250,21 @@ function start() {
         if (sortby == "Firstname") {
             console.log(sortby);
             // Todo: Function to sort by firstname
-            Newlist.sort(function (a, b) {
+            filteredList.sort(function (a, b) {
                 return a.firstname.localeCompare(b.firstname);
             });
             // Todo: If lastname sort by lastname
         } else if (sortby == "Lastname") {
             console.log(sortby);
             // Todo: Function to sort by lastname
-            Newlist.sort(function (a, b) {
+            filteredList.sort(function (a, b) {
                 return a.lastname.localeCompare(b.lastname);
             });
             // Todo: If house sort by house
         } else if (sortby == "House") {
             console.log(sortby);
             // Todo: Function to sort by house
-            Newlist.sort(function (a, b) {
+            filteredList.sort(function (a, b) {
                 return a.house.localeCompare(b.house);
             });
             // Todo: Reset sorting
