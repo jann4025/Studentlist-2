@@ -15,7 +15,7 @@ function start() {
 
     let house;
 
-    let expell = 0;
+    let expelledStudents = [];
 
     const Student = {
         firstname: "",
@@ -42,7 +42,7 @@ function start() {
         option.addEventListener("change", setFilter);
     });
 
-    document.querySelector('.student-list').addEventListener('click', expelStudent);
+
     // Todo: Eventlistener for each student
 
     async function getJson() {
@@ -113,7 +113,7 @@ function start() {
             Allstudents.push(student);
         });
         document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
-        document.querySelector(".expell-count").innerHTML = `Expelled students: ${expell}`;
+        document.querySelector(".expell-count").innerHTML = `Expelled students: ${expelledStudents.length}`;
         filteredList = filterBy("All");
         showStudents();
 
@@ -144,31 +144,100 @@ function start() {
 
     function expelStudent(evnet) {
         const element = event.target;
-        if (element.dataset.action == "remove") {
-            console.log("Remove button click");
-            element.parentElement.remove();
-            const id = element.dataset.id;
-            const index = filteredList.findIndex(findFunction);
-            console.log(id);
+        console.log("Remove button click");
+        element.parentElement.classList.add("fade-out");
+        const id = element.dataset.id;
+        const index = filteredList.findIndex(findFunction);
 
-            function findFunction(student) {
-                if (student.id == id) {
-                    return true;
-                } else {
-                    return false;
-                }
+        function findFunction(student) {
+            if (student.id == id) {
+                return true;
+            } else {
+                return false;
             }
-            filteredList.splice(index, 1);
-            Allstudents.splice(index, 1);
-            expell++;
-            document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
-            document.querySelector(".expell-count").innerHTML = `Expelled students: ${expell}`;
-            console.table(filteredList);
-            console.table(Allstudents);
         }
+
+        let RemovedStudent = filteredList.slice(index, index + 1);
+        console.log(RemovedStudent);
+        RemovedStudent.forEach(CreateExpelledList);
+        element.parentElement.remove();
+        filteredList.splice(index, 1);
+        Allstudents.splice(index, 1);
+        document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
+        document.querySelector(".expell-count").innerHTML = `Expelled students: ${expelledStudents.length}`;
+        console.log(Allstudents);
+
+        function CreateExpelledList(student) {
+            console.log(RemovedStudent);
+            const studentExpell = {
+                firstname: "",
+                middelname: "",
+                lastname: "",
+                gender: "",
+                house: "",
+                imagelink: "",
+                id: ""
+            }
+            const studentExpelled = Object.create(studentExpell);
+            console.log(studentExpelled);
+            studentExpelled.firstname = student.firstname;
+            studentExpelled.middelname = student.middelname;
+            studentExpelled.lastname = student.lastname;
+            studentExpelled.gender = student.gender;
+            studentExpelled.house = student.house;
+            studentExpelled.imagelink = student.imagelink;
+            studentExpelled.id = student.id;
+            console.log(studentExpelled);
+            expelledStudents.push(studentExpelled);
+
+        }
+        document.querySelector('.expell-count').addEventListener('click', showExpelledList);
     }
 
+    function showExpelledList() {
+        document.querySelector(".expelled-list").innerHTML = `<h1 class="">Expelled students</h1>`;
+        console.table(expelledStudents);
+        // Todo: Empty .student-list
+        document.querySelector(".expelled-list").classList.remove("hide");
+        document.querySelector('.expelled-list').addEventListener('click', function () {
+            document.querySelector(".expelled-list").classList.add("hide");
+            document.querySelector(".overlay").classList = "overlay hide";
+            document.querySelector(".student-list").classList = "student-list";
+            document.querySelector(".top h1").classList = "";
+            document.querySelector("body").classList = "";
+            document.querySelector(".students-count").classList.remove("blur");
+            document.querySelector(".expell-count").classList.remove("blur");
+            document.querySelector(".dropdowns").classList = "dropdowns"
+            document.querySelector(".top img").classList = "";
+        });
 
+        document.querySelector(".overlay").classList = "overlay";
+        document.querySelector(".student-list").classList = "student-list blur";
+        document.querySelector(".top h1").classList = "blur";
+        document.querySelector(".students-count").classList.add("blur");
+        document.querySelector(".expell-count").classList.add("blur");
+        document.querySelector("body").classList = "back-drop-blur";
+        document.querySelector(".dropdowns").classList = "dropdowns blur";
+        document.querySelector(".top img").classList = "blur";
+
+        expelledStudents.forEach(expelledStudent => {
+            document.querySelector(".expelled-list").innerHTML +=
+                `<div class="expelled-student">
+                <img src="img/${expelledStudent.imagelink}" alt="">
+                <div>
+                    <h1>${expelledStudent.firstname + " " + expelledStudent.middelname + " " + expelledStudent.lastname}</h1>
+                    <h2>${expelledStudent.house}</h2>
+                    <p>Born: 1980 &nbsp &#10043 &nbsp Half-blood &nbsp &#10043 &nbsp Married &nbsp &#10043
+                        &nbsp British
+                    </p>
+                </div>
+
+            </div>
+        `;
+
+        });
+
+    }
 
     function showStudents() {
         // Todo: Empty .student-list
@@ -207,6 +276,7 @@ function start() {
             // // Todo: House attribute
             klon.querySelector(".btn-read-more").dataset.house = student.house.toLowerCase();
             klon.querySelector(".btn-read-more").dataset.id = student.id;
+            klon.querySelector(".btn-danger").dataset.id = student.id;
             klon.querySelector("button").dataset.id = student.id;
 
             // // Todo: Clone element from 
@@ -215,8 +285,11 @@ function start() {
         });
         document.querySelectorAll(".student .btn-read-more").forEach(studentBtn => {
             studentBtn.addEventListener("click", showModal);
-
         });
+        document.querySelectorAll(".student .btn-danger").forEach(expellBtn => {
+            expellBtn.addEventListener('click', expelStudent);
+        });
+
     }
 
 
@@ -301,9 +374,4 @@ function start() {
         showStudents();
 
     }
-
-
-
-
-
 }

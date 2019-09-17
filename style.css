@@ -27,6 +27,16 @@ body {
     font-size: 4rem;
 }
 
+.expelled-list>h1 {
+    font-size: 2rem;
+    margin: 1em 0 0em 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Asap Condensed', sans-serif;
+    color: black;
+
+}
+
 .top .count {
     display: flex;
 }
@@ -185,7 +195,8 @@ select {
     color: whitesmoke;
 }
 
-.bottom {
+.bottom,
+.expelled-student {
     width: 100%;
     height: 25%;
     padding: 2vw 0 2vw 2vw;
@@ -195,7 +206,8 @@ select {
     align-items: center;
 }
 
-.bottom img {
+.bottom img,
+.expelled-student img {
     margin-right: 1em;
 }
 
@@ -266,4 +278,20 @@ button {
         #2ecc71;
     border-color:
         #239954;
+}
+
+.expelled-list {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    height: 80vh;
+    overflow: scroll;
+    z-index: 199;
+    transform: translate(-50%, -50%);
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.expell-count {
+    cursor: pointer;
 }
