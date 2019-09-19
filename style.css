@@ -25,6 +25,7 @@ body {
 .top h1 {
     /* font-weight: 700; */
     font-size: 4rem;
+    font-family: 'Jolly Lodger', cursive;
 }
 
 .expelled-list>h1 {
@@ -37,11 +38,16 @@ body {
 
 }
 
-.top .count {
+.top .count,
+.top .house-count {
     display: flex;
+    margin-top: 1em;
 }
 
-.top .students-count {
+
+
+.top .students-count,
+.top .houseCounter {
     margin-right: 1em;
 }
 
@@ -229,7 +235,6 @@ select {
     display: none;
 }
 
-
 button {
     margin-top: 1em;
     display: inline-block;
@@ -253,31 +258,45 @@ button {
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+    font-family: 'Jolly Lodger', cursive;
+    font-size: 1.000001rem;
+    line-height: 1;
 }
 
 .btn-danger {
-    color:
-        whitesmoke;
-    background-color:
-        #d9534f;
-    border-color:
-        #d43f3a;
-    opacity: .5;
-    transition: .3s;
+    color: #d9534f;
+    text-transform: uppercase;
+    background: #ffffff;
+    border: 4px solid #d43f3a;
+    border-radius: 6px;
+    display: inline-block;
+    transition: all 0.3s ease 0s;
+    cursor: pointer !important;
 }
 
 .btn-danger:hover {
-    opacity: 1;
-    transition: .3s;
+    border-radius: 50px;
+    transition: all 0.3s ease 0s;
+    background: #d9534f;
+    color: #ffffff;
 }
 
 .btn-read-more {
-    color:
-        whitesmoke;
-    background-color:
-        #2ecc71;
-    border-color:
-        #239954;
+    color: #20bf6b;
+    text-transform: uppercase;
+    background: #ffffff;
+    border: 4px solid #20bf6b;
+    border-radius: 6px;
+    display: inline-block;
+    transition: all 0.3s ease 0s;
+    cursor: pointe;
+}
+
+.btn-read-more:hover {
+    border-radius: 50px;
+    transition: all 0.3s ease 0s;
+    background: #20bf6b;
+    color: #ffffff;
 }
 
 .expelled-list {
@@ -294,4 +313,25 @@ button {
 
 .expell-count {
     cursor: pointer;
+}
+
+.disable {
+    cursor: not-allowed;
+    opacity: .7;
+    position: relative;
+}
+
+.dis-mes {
+    opacity: 0;
+    position: absolute;
+    color: black;
+    z-index: 300;
+    max-width: 300px;
+    padding: .5em;
+    background-color: whitesmoke;
+    pointer-events: none;
+}
+
+.disable:hover+.dis-mes {
+    opacity: 1;
 }
