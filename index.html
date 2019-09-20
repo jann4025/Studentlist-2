@@ -39,8 +39,6 @@
     <main>
         <div class="dropdowns">
             <label for="#sort-by">Sort by </label>
-            <span class="hide atoz sorting">A &#8594 Z</span>
-            <span class="hide ztoa sorting">Z &#8594 A</span>
             <select id="sort-by">
                 <option value="none">None</option>
                 <option value="Firstname">Firstname</option>
@@ -60,18 +58,28 @@
 
         </div>
         <div class="modal hide">
-            <div class="image"><img src="" alt=""></div>
-            <div class="bottom">
-                <img src="" alt="">
-                <div>
-                    <h1></h1>
-                    <h2></h2>
-                    <p>
-                    </p>
-                </div>
-
+            <div class="close-btn">
+                <i class="fas fa-times"></i>
             </div>
+            <div class="image"><img src="" alt=""></div>
+
+            <div class="bottom">
+                <div class="content">
+                    <img src="" alt="">
+                    <div>
+                        <h1></h1>
+                        <h2></h2>
+                        <p>
+                        </p>
+                    </div>
+                </div>
+                <div class="prefect">
+                    <button class="btn-read-more">Make student prefect</button>
+                </div>
+            </div>
+
         </div>
+
 
 
         <div class="expelled-list hide">

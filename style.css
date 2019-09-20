@@ -24,7 +24,7 @@ body {
 
 .top h1 {
     /* font-weight: 700; */
-    font-size: 4rem;
+    font-size: 6rem;
     font-family: 'Jolly Lodger', cursive;
 }
 
@@ -86,17 +86,20 @@ ul {
     padding: 2em 0 2em 0;
     box-shadow: 0 1rem 2.8rem 0 rgba(0, 0, 0, .15);
     border-radius: 1rem;
-    cursor: pointer;
     background: whitesmoke;
 }
 
 .content h1 {
     font-weight: 600;
-    margin: 0 0 .2em 0;
+    margin: 0 0 0 0;
+    font-size: 1.5em;
+    font-family: 'Jolly Lodger', cursive;
 }
 
 .content h2 {
     font-weight: 400;
+    font-family: 'Jolly Lodger', cursive;
+    font-size: 1.5em;
 }
 
 .fa-user,
@@ -138,6 +141,22 @@ select {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.close-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: 100%;
+    height: 100%;
+}
+
+.close-btn i {
+    color: #d43f3a;
+    font-size: 1.8em;
+    margin: .5em 0 0 1em;
+    cursor: pointer;
+
 }
 
 .content {
@@ -201,7 +220,7 @@ select {
     color: whitesmoke;
 }
 
-.bottom,
+.bottom .content,
 .expelled-student {
     width: 100%;
     height: 25%;
@@ -211,6 +230,20 @@ select {
     justify-items: left;
     align-items: center;
 }
+
+.bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.prefect {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 
 .bottom img,
 .expelled-student img {
@@ -271,7 +304,7 @@ button {
     border-radius: 6px;
     display: inline-block;
     transition: all 0.3s ease 0s;
-    cursor: pointer !important;
+    ;
 }
 
 .btn-danger:hover {
@@ -289,7 +322,7 @@ button {
     border-radius: 6px;
     display: inline-block;
     transition: all 0.3s ease 0s;
-    cursor: pointe;
+    cursor: pointer;
 }
 
 .btn-read-more:hover {
@@ -319,6 +352,31 @@ button {
     cursor: not-allowed;
     opacity: .7;
     position: relative;
+}
+
+.disable-2 {
+    cursor: not-allowed;
+    opacity: .7;
+    color: #353b48;
+    text-transform: uppercase;
+    background: #ffffff;
+    border: 4px solid #2f3640;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.disable-2:hover::after {
+    content: 'You`ve reached the maximum number of prefects in this house';
+    cursor: not-allowed;
+    color: #353b48;
+    position: absolute;
+    transform: translateX(-70%) translateY(80%);
+    text-transform: uppercase;
+    background: #ffffff;
+    border-radius: 6px;
+    display: inline-block;
+    padding: 1em;
+    opacity: 1;
 }
 
 .dis-mes {
