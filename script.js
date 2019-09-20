@@ -22,18 +22,18 @@ const Student = {
     prefect: ""
 }
 
-document.querySelector(".expell-count").addEventListener("mouseover", function () {
-    let div = document.querySelector('.dis-mes');
-    let body = document.querySelector('body');
-    let y = 0;
-    let x = 0;
-    body.addEventListener('mouseover', function (event) {
-        x = div.style.left = event.clientX + "px";
-        y = div.style.top = event.clientY + "px";
+// document.querySelector(".expell-count").addEventListener("mouseover", function () {
+//     let div = document.querySelector('.dis-mes');
+//     let body = document.querySelector('body');
+//     let y = 0;
+//     let x = 0;
+//     body.addEventListener('mouseover', function (event) {
+//         x = div.style.left = event.clientX + "px";
+//         y = div.style.top = event.clientY + "px";
 
-        console.log(event.clientX + "px");
-    });
-});
+//         console.log(event.clientX + "px");
+//     });
+// });
 
 
 
@@ -153,6 +153,7 @@ function fixArray(students) {
             student.bloodStatus = "Muggle born"
         }
         student.prefect = "";
+        student.squad = false;
         Allstudents.push(student);
 
 
@@ -161,6 +162,7 @@ function fixArray(students) {
     document.querySelector(".expell-count").innerHTML = `Expelled students: ${expelledStudents.length}`;
     filteredList = filterBy("All");
     countStudentsInHouse();
+    randomBloodStatus();
     showStudents();
 
 }
@@ -177,6 +179,7 @@ function findHalfBlood(halfBlood) {
             }
         });
     });
+    randomBloodStatus();
 }
 
 function findPureBlood(pureBlood) {
@@ -195,10 +198,11 @@ function findPureBlood(pureBlood) {
 }
 
 function countStudentsInHouse() {
-    hufflepuff = Allstudents.filter(x => x.house.includes('Hufflepuff'));
+    hufflepuff = Allstudents.filter(x => x.house === 'Hufflepuff');
     gryffindor = Allstudents.filter(x => x.house.includes('Gryffindor'));
     ravenclaw = Allstudents.filter(x => x.house.includes('Ravenclaw'));
     slytherin = Allstudents.filter(x => x.house.includes('Slytherin'));
+    console.log("counted...")
     document.querySelector(".hufflepuff-count").innerHTML = `Students in Hufflepuff: ${hufflepuff.length}`;
     document.querySelector(".gryffindor-count").innerHTML = `Students in Gryffindor: ${gryffindor.length}`;
     document.querySelector(".ravenclaw-count").innerHTML = `Students in Ravenclaw: ${ravenclaw.length}`;
@@ -236,6 +240,7 @@ function expelStudent(event) {
     console.log("Remove button click");
     const id = element.dataset.id;
     const index = filteredList.findIndex(findFunction);
+    const indexAll = Allstudents.findIndex(findFunction);
 
     function findFunction(student) {
         if (student.id == id) {
@@ -250,7 +255,7 @@ function expelStudent(event) {
     RemovedStudent.forEach(CreateExpelledList);
     element.parentElement.remove();
     filteredList.splice(index, 1);
-    Allstudents.splice(index, 1);
+    Allstudents.splice(indexAll, 1);
     document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
     document.querySelector(".expell-count").innerHTML = `Expelled students: ${expelledStudents.length}`;
     countStudentsInHouse();
@@ -265,7 +270,8 @@ function expelStudent(event) {
             gender: "",
             house: "",
             imagelink: "",
-            id: ""
+            id: "",
+            prefect: ""
         }
         const studentExpelled = Object.create(studentExpell);
         console.log(studentExpelled);
@@ -277,6 +283,7 @@ function expelStudent(event) {
         studentExpelled.imagelink = student.imagelink;
         studentExpelled.id = student.id;
         studentExpelled.bloodStatus = student.bloodStatus;
+        studentExpelled.prefect = student.prefect;
         console.log(studentExpelled);
         expelledStudents.push(studentExpelled);
 
@@ -320,7 +327,7 @@ function showExpelledList() {
                 <div>
                     <h1>${expelledStudent.firstname + " " + expelledStudent.middelname + " " + expelledStudent.lastname}</h1>
                     <h2>${expelledStudent.house}</h2>
-                    <p>${expelledStudent.gender} ${expelledStudent.bloodStatus} 
+                    <p>${expelledStudent.gender} <br> ${expelledStudent.bloodStatus} <br> ${expelledStudent.prefect}
                     </p>
                 </div>
 
@@ -396,25 +403,25 @@ function showModal(event) {
     //Todo: Show modal and blur everything else
     filteredList.forEach(student => {
 
+
+
         if (student.id == id) {
             document.querySelector(".modal").classList.remove("hide");
 
             document.querySelector(".modal").classList.add(houses);
             document.querySelector(".modal .bottom div h1").innerHTML = student.firstname + " " + student.lastname;
             document.querySelector(".modal .bottom div h2").innerHTML = student.house;
-            document.querySelector(".prefect button").dataset.id = student.id;
-
-
-
-
+            document.querySelector(".prefect>button").dataset.id = student.id;
+            document.querySelector(".prefect>button+button").dataset.id = student.id;
+            document.querySelector(".prefect>button+button").addEventListener("click", sqaudFunc);
             if (student.prefect == "Prefect") {
-                document.querySelector(".prefect button").classList = "btn-danger";
-                document.querySelector(".prefect button").textContent = "Remove student as prefect";
-                document.querySelector(".prefect button").addEventListener("click", prefectFunc);
+                document.querySelector(".prefect>button").classList = "btn-danger";
+                document.querySelector(".prefect>button").textContent = "Remove student as prefect";
+                document.querySelector(".prefect>button").addEventListener("click", prefectFunc);
             } else {
-                document.querySelector(".prefect button").addEventListener("click", prefectFunc);
-                document.querySelector(".prefect button").classList = "btn-read-more";
-                document.querySelector(".prefect button").textContent = "Make student prefect";
+                document.querySelector(".prefect>button").addEventListener("click", prefectFunc);
+                document.querySelector(".prefect>button").classList = "btn-read-more";
+                document.querySelector(".prefect>button").textContent = "Make student prefect";
             }
             document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
 
@@ -459,6 +466,14 @@ function showModal(event) {
                 checkPrefectsRavenclaw(student);
             } else if (student.house == "Slytherin") {
                 checkPrefectsSlytherin(student);
+
+            }
+            if (student.house == "Slytherin" || student.bloodStatus == "Pure-blood") {
+                document.querySelector(".prefect>button+button").classList = "btn-read-more";
+                document.querySelector(".prefect>button+button").textContent = "Add student to Inquisitorial Squad";
+            } else {
+                document.querySelector(".prefect>button+button").classList = "disable-3";
+                document.querySelector(".prefect>button+button").textContent = "Add student to Inquisitorial Squad";
             }
 
         }
@@ -474,13 +489,13 @@ function prefectFunc() {
     Allstudents.forEach(student => {
         if (student.id == id && student.prefect == "") {
             student.prefect = "Prefect";
-            document.querySelector(".prefect button").classList = "btn-danger";
-            document.querySelector(".prefect button").textContent = "Remove student as prefect";
+            document.querySelector(".prefect>button").classList = "btn-danger";
+            document.querySelector(".prefect>button").textContent = "Remove student as prefect";
             document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
         } else if (student.id == id && student.prefect == "Prefect") {
             student.prefect = "";
-            document.querySelector(".prefect button").classList = "btn-read-more";
-            document.querySelector(".prefect button").textContent = "Make student prefect";
+            document.querySelector(".prefect>button").classList = "btn-read-more";
+            document.querySelector(".prefect>button").textContent = "Make student prefect";
             document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
         }
     });
@@ -493,9 +508,9 @@ function checkPrefectsHufflepuff(student) {
     console.log(prefect.length == 2);
     if (student.prefect == "" && prefect.length == 2) {
         console.log("stop");
-        document.querySelector(".prefect button").removeEventListener("click", prefectFunc);
-        document.querySelector(".prefect button").classList = "disable-2";
-        document.querySelector(".prefect button").textContent = "Make student prefect";
+        document.querySelector(".prefect>button").removeEventListener("click", prefectFunc);
+        document.querySelector(".prefect>button").classList = "disable-2";
+        document.querySelector(".prefect>button").textContent = "Make student prefect";
         document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
     }
 }
@@ -506,9 +521,9 @@ function checkPrefectsGryffindor(student) {
     console.log(prefect.length == 2);
     if (student.prefect == "" && prefect.length == 2) {
         console.log("stop");
-        document.querySelector(".prefect button").removeEventListener("click", prefectFunc);
-        document.querySelector(".prefect button").classList = "disable-2";
-        document.querySelector(".prefect button").textContent = "Make student prefect";
+        document.querySelector(".prefect>button").removeEventListener("click", prefectFunc);
+        document.querySelector(".prefect>button").classList = "disable-2";
+        document.querySelector(".prefect>button").textContent = "Make student prefect";
         document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
     }
 }
@@ -519,9 +534,9 @@ function checkPrefectsRavenclaw(student) {
     console.log(prefect.length == 2);
     if (student.prefect == "" && prefect.length == 2) {
         console.log("stop");
-        document.querySelector(".prefect button").removeEventListener("click", prefectFunc);
-        document.querySelector(".prefect button").classList = "disable-2";
-        document.querySelector(".prefect button").textContent = "Make student prefect";
+        document.querySelector(".prefect>button").removeEventListener("click", prefectFunc);
+        document.querySelector(".prefect>button").classList = "disable-2";
+        document.querySelector(".prefect>button").textContent = "Make student prefect";
         document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
     }
 }
@@ -532,15 +547,51 @@ function checkPrefectsSlytherin(student) {
     console.log(prefect.length == 2);
     if (student.prefect == "" && prefect.length == 2) {
         console.log("stop");
-        document.querySelector(".prefect button").removeEventListener("click", prefectFunc);
-        document.querySelector(".prefect button").classList = "disable-2";
-        document.querySelector(".prefect button").textContent = "Dont even think about it";
+        document.querySelector(".prefect>button").removeEventListener("click", prefectFunc);
+        document.querySelector(".prefect>button").classList = "disable-2";
+        document.querySelector(".prefect>button").textContent = "Make student prefect";
         document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
     }
 }
 
+function sqaudFunc() {
+    const id = this.dataset.id;
+    console.log(id);
 
+    Allstudents.forEach(student => {
+        const s = student;
+        if (student.bloodStatus == "Pure-blood" || student.house == "Slytherin") {
+            if (student.id == id && student.squad == false) {
+                s.squad = true;
+                document.querySelector(".prefect>button+button").classList = "btn-danger";
+                document.querySelector(".prefect>button+button").textContent = "Remove student from Inquisitorial Squad";
+                document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect} <br> Inquisitorial Squad `;
+                setTimeout(function () {
+                    removeSquad(id);
+                }, 5000);
+            } else if (student.id == id && student.squad == true) {
+                s.squad = false;
+                document.querySelector(".prefect>button+button").classList = "btn-read-more";
+                document.querySelector(".prefect>button+button").textContent = "Add student to Inquisitorial Squad";
+                document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect} <br> `;
+            }
+        }
 
+    });
+}
+
+function removeSquad(id) {
+    console.log("byebye squad");
+    Allstudents.forEach(student => {
+        if (student.id == id && student.squad == true) {
+            alert("All Members is removed from the Inquisitorial Squad")
+            student.squad = false;
+            document.querySelector(".prefect>button+button").classList = "btn-read-more";
+            document.querySelector(".prefect>button+button").textContent = "Add student to Inquisitorial Squad";
+            document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect} <br> `;
+        }
+    });
+}
 
 function sortBy() {
     console.log('Sort json');
@@ -577,4 +628,20 @@ function sortBy() {
     // Todo: Call function to show studentlist again
     showStudents();
 
+}
+
+
+function randomBloodStatus() {
+
+    Allstudents.forEach(student => {
+        if (student.bloodStatus == "Pure-blood") {
+            const bloodStatuss = ['Pure-blood', 'Half-blood', 'Muggle born'];
+            const bloodStatus = bloodStatuss[Math.floor(Math.random() * bloodStatuss.length)];
+            student.bloodStatus = bloodStatus;
+        } else {
+            student.bloodStatus = "Pure-blood"
+        }
+
+
+    });
 }
