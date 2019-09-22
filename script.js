@@ -70,6 +70,7 @@ async function getJson() {
     students = await jsonData.json();
     // Todo: Call Function to show student list
     fixArray(students);
+    s
 }
 
 async function getJsonFamilies() {
@@ -87,6 +88,7 @@ async function getJsonFamilies() {
 }
 
 function fixArray(students) {
+    hackingNewStudent();
     // Source: https://www.w3hufflepuffource.com/javascript-exercises/javascript-math-exercise-23.php
     function create_UUID() {
         var dt = new Date().getTime();
@@ -158,12 +160,28 @@ function fixArray(students) {
 
 
     });
+
+    function hackingNewStudent() {
+        const student = Object.create(Student);
+        student.firstname = "Jannick"
+        student.lastname = "Holm";
+        student.house = "Hufflepuff"
+        student.gender = "Boy"
+        student.imagelink = `unknown.png`;
+        student.id = create_UUID();
+        student.bloodStatus = "Pure-blood"
+        student.prefect = "";
+        Allstudents.push(student);
+        console.log(Allstudents);
+    }
     document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
     document.querySelector(".expell-count").innerHTML = `Expelled students: ${expelledStudents.length}`;
     filteredList = filterBy("All");
     countStudentsInHouse();
     randomBloodStatus();
     showStudents();
+
+
 
 }
 
@@ -251,15 +269,22 @@ function expelStudent(event) {
     }
 
     let RemovedStudent = filteredList.slice(index, index + 1);
-    console.log(RemovedStudent);
     RemovedStudent.forEach(CreateExpelledList);
-    element.parentElement.remove();
-    filteredList.splice(index, 1);
-    Allstudents.splice(indexAll, 1);
-    document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
-    document.querySelector(".expell-count").innerHTML = `Expelled students: ${expelledStudents.length}`;
-    countStudentsInHouse();
-    console.log(Allstudents);
+    if (filteredList[index].firstname == "Jannick") {
+        stopexpelling();
+    } else {
+        element.parentElement.classList.add("fadeOut");
+        element.parentElement.addEventListener("animationend", function () {
+            console.log(RemovedStudent);
+            element.parentElement.remove();
+            filteredList.splice(index, 1);
+            Allstudents.splice(indexAll, 1);
+            document.querySelector(".students-count").innerHTML = `Students: ${Allstudents.length}`;
+            document.querySelector(".expell-count").innerHTML = `Expelled students: ${expelledStudents.length}`;
+            countStudentsInHouse();
+            console.log(Allstudents);
+        });
+    }
 
     function CreateExpelledList(student) {
         console.log(RemovedStudent);
@@ -499,15 +524,14 @@ function prefectFunc() {
             document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect}`;
         }
     });
+
 }
 
 
 function checkPrefectsHufflepuff(student) {
-    console.log("hallo");
     let prefect = hufflepuff.filter(x => x.prefect.includes('Prefect'));
     console.log(prefect.length == 2);
     if (student.prefect == "" && prefect.length == 2) {
-        console.log("stop");
         document.querySelector(".prefect>button").removeEventListener("click", prefectFunc);
         document.querySelector(".prefect>button").classList = "disable-2";
         document.querySelector(".prefect>button").textContent = "Make student prefect";
@@ -516,7 +540,6 @@ function checkPrefectsHufflepuff(student) {
 }
 
 function checkPrefectsGryffindor(student) {
-    console.log("hallo");
     let prefect = gryffindor.filter(x => x.prefect.includes('Prefect'));
     console.log(prefect.length == 2);
     if (student.prefect == "" && prefect.length == 2) {
@@ -529,7 +552,6 @@ function checkPrefectsGryffindor(student) {
 }
 
 function checkPrefectsRavenclaw(student) {
-    console.log("hallo");
     let prefect = ravenclaw.filter(x => x.prefect.includes('Prefect'));
     console.log(prefect.length == 2);
     if (student.prefect == "" && prefect.length == 2) {
@@ -561,11 +583,19 @@ function sqaudFunc() {
     Allstudents.forEach(student => {
         const s = student;
         if (student.bloodStatus == "Pure-blood" || student.house == "Slytherin") {
-            if (student.id == id && student.squad == false) {
+            if (student.id == id && student.squad == false && student.prefect == "Prefect") {
                 s.squad = true;
                 document.querySelector(".prefect>button+button").classList = "btn-danger";
                 document.querySelector(".prefect>button+button").textContent = "Remove student from Inquisitorial Squad";
                 document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> ${student.prefect} <br> Inquisitorial Squad `;
+                setTimeout(function () {
+                    removeSquad(id);
+                }, 5000);
+            } else if (student.id == id && student.squad == false && student.prefect == "") {
+                s.squad = true;
+                document.querySelector(".prefect>button+button").classList = "btn-danger";
+                document.querySelector(".prefect>button+button").textContent = "Remove student from Inquisitorial Squad";
+                document.querySelector(".modal .bottom div p").innerHTML = `Gender: ${student.gender} <br> Blood status: ${student.bloodStatus} <br> Inquisitorial Squad `;
                 setTimeout(function () {
                     removeSquad(id);
                 }, 5000);
@@ -581,7 +611,6 @@ function sqaudFunc() {
 }
 
 function removeSquad(id) {
-    console.log("byebye squad");
     Allstudents.forEach(student => {
         if (student.id == id && student.squad == true) {
             alert("All Members is removed from the Inquisitorial Squad")
@@ -632,16 +661,23 @@ function sortBy() {
 
 
 function randomBloodStatus() {
-
     Allstudents.forEach(student => {
         if (student.bloodStatus == "Pure-blood") {
-            const bloodStatuss = ['Pure-blood', 'Half-blood', 'Muggle born'];
-            const bloodStatus = bloodStatuss[Math.floor(Math.random() * bloodStatuss.length)];
+            const bloodStatusArr = ['Pure-blood', 'Half-blood', 'Muggle born'];
+            const bloodStatus = bloodStatusArr[Math.floor(Math.random() * bloodStatusArr.length)];
             student.bloodStatus = bloodStatus;
         } else {
             student.bloodStatus = "Pure-blood"
         }
-
-
     });
+
+}
+
+function stopexpelling() {
+    document.querySelectorAll(".student").forEach(student => {
+        student.classList.add("shake");
+    });
+    document.querySelector(".code-red-light").classList.remove("hide");
+    document.querySelector("#alarm-sound").play();
+    document.querySelector("#alarm-sound").loop = true;
 }

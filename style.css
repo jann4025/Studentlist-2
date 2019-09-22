@@ -10,6 +10,15 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='139' height='139' viewBox='0 0 100 100'%3E%3Cg stroke='%23CCC' stroke-width='0' %3E%3Crect fill='%23726255' x='-60' y='-60' width='110' height='240'/%3E%3C/g%3E%3C/svg%3E");
 }
 
+
+
+
+.fadeOut {
+    animation-name: fadeOut;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(.17, .67, .83, .67);
+}
+
 .back-drop-blur {
     backdrop-filter: blur(10px);
 }
@@ -377,19 +386,7 @@ button {
     display: inline-block;
 }
 
-.disable-2:hover::after {
-    content: 'You`ve reached the maximum number of prefects in this house';
-    cursor: not-allowed;
-    color: #353b48;
-    position: absolute;
-    transform: translateX(-70%) translateY(80%);
-    text-transform: uppercase;
-    background: #ffffff;
-    border-radius: 6px;
-    display: inline-block;
-    padding: 1em;
-    opacity: 1;
-}
+
 
 .dis-mes {
     opacity: 0;
@@ -405,4 +402,151 @@ button {
 
 .disable:hover+.dis-mes {
     opacity: 1;
+}
+
+
+
+
+@keyframes shakeAnimation {
+    0% {
+        transform: translate(2px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(0px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(2px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(2px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+.shake {
+    animation-name: shakeAnimation;
+    animation-duration: 0.8s;
+    transform-origin: 50% 50%;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes redAlarm {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: .1;
+    }
+
+    20% {
+        opacity: .3;
+    }
+
+    30% {
+        opacity: .4;
+    }
+
+    40% {
+        opacity: .5;
+    }
+
+    50% {
+        opacity: .6;
+    }
+
+    60% {
+        opacity: .5;
+    }
+
+    70% {
+        opacity: .4;
+    }
+
+    80% {
+        opacity: .3;
+    }
+
+    90% {
+        opacity: .2;
+    }
+
+    100% {
+        opacity: .0;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: rotateY(90deg);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        display: none;
+        opacity: 0;
+        transform: rotateY(90deg);
+    }
+}
+
+
+.code-red-light {
+    animation-name: redAlarm;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    background-color: #AE0001;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.code-red-light h1 {
+    font-size: 4em;
+    color: whitesmoke;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 12;
 }
